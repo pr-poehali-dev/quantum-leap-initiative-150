@@ -1,12 +1,13 @@
-import HeroSection from "@/components/HeroSection"
-import { TextGradientScroll } from "@/components/ui/text-gradient-scroll"
-import { Timeline } from "@/components/ui/timeline"
-import { StaggerTestimonials } from "@/components/ui/stagger-testimonials"
+import { lazy, Suspense, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import SmoothScrollHero from "@/components/ui/smooth-scroll-hero"
-import { useState } from "react"
+import HeroSection from "@/components/HeroSection"
 import Icon from "@/components/ui/icon"
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
+
+const TextGradientScroll = lazy(() => import("@/components/ui/text-gradient-scroll").then(m => ({ default: m.TextGradientScroll })))
+const Timeline = lazy(() => import("@/components/ui/timeline").then(m => ({ default: m.Timeline })))
+const StaggerTestimonials = lazy(() => import("@/components/ui/stagger-testimonials").then(m => ({ default: m.StaggerTestimonials })))
+const SmoothScrollHero = lazy(() => import("@/components/ui/smooth-scroll-hero"))
 
 export default function Index() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -68,12 +69,14 @@ export default function Index() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-6xl font-black tracking-wider mb-12 text-gray-900">НАША ФИЛОСОФИЯ</h2>
-            <TextGradientScroll
-              text={missionStatement}
-              className="text-2xl md:text-3xl lg:text-4xl font-medium leading-relaxed text-gray-800"
-              type="word"
-              textOpacity="soft"
-            />
+            <Suspense fallback={<p className="text-gray-400 text-2xl">...</p>}>
+              <TextGradientScroll
+                text={missionStatement}
+                className="text-2xl md:text-3xl lg:text-4xl font-medium leading-relaxed text-gray-800"
+                type="word"
+                textOpacity="soft"
+              />
+            </Suspense>
           </div>
         </div>
       </section>
@@ -93,7 +96,9 @@ export default function Index() {
             </div>
           </div>
 
-          <Timeline entries={timelineEntries} />
+          <Suspense fallback={<div className="h-96" />}>
+            <Timeline entries={timelineEntries} />
+          </Suspense>
         </div>
       </section>
 
@@ -119,7 +124,9 @@ export default function Index() {
             </p>
           </motion.div>
 
-          <StaggerTestimonials />
+          <Suspense fallback={<div className="h-96" />}>
+            <StaggerTestimonials />
+          </Suspense>
         </div>
       </section>
 
@@ -293,14 +300,16 @@ export default function Index() {
 
       {/* Smooth Scroll Hero with CTA Overlay */}
       <section id="join" className="relative">
-        <SmoothScrollHero
-          scrollHeight={2500}
-          desktopImage="https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781968576/ChatGPT_Image_20_%D0%B8%D1%8E%D0%BD._2026_%D0%B3._18_15_51_nwi7mv.png"
-          mobileImage="https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781968576/ChatGPT_Image_20_%D0%B8%D1%8E%D0%BD._2026_%D0%B3._18_15_51_nwi7mv.png"
-          initialClipPercentage={30}
-          finalClipPercentage={70}
-          onCtaClick={() => setIsModalOpen(true)}
-        />
+        <Suspense fallback={<div className="h-screen bg-black" />}>
+          <SmoothScrollHero
+            scrollHeight={2500}
+            desktopImage="https://res.cloudinary.com/dm2xsvsg7/image/upload/w_1920,q_80,f_auto/v1781968576/ChatGPT_Image_20_%D0%B8%D1%8E%D0%BD._2026_%D0%B3._18_15_51_nwi7mv.png"
+            mobileImage="https://res.cloudinary.com/dm2xsvsg7/image/upload/w_800,q_75,f_auto/v1781968576/ChatGPT_Image_20_%D0%B8%D1%8E%D0%BD._2026_%D0%B3._18_15_51_nwi7mv.png"
+            initialClipPercentage={30}
+            finalClipPercentage={70}
+            onCtaClick={() => setIsModalOpen(true)}
+          />
+        </Suspense>
       </section>
     </div>
   )

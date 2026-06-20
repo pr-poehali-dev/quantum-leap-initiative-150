@@ -7,7 +7,7 @@ interface HeroSectionProps {
   onCtaClick?: () => void
 }
 
-const HERO_IMAGE = "https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781967158/d461aab7-b492-480e-ad82-8cd1f24ec896_xssu7z.png"
+const HERO_IMAGE = "https://res.cloudinary.com/dm2xsvsg7/image/upload/w_1920,q_80,f_auto/v1781967158/d461aab7-b492-480e-ad82-8cd1f24ec896_xssu7z.png"
 
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -42,19 +42,11 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         alt="LUMIÈRE Estates"
         className="absolute inset-0 w-full h-full"
         style={{ objectFit: "cover", objectPosition: "center" }}
-        initial={{ opacity: 0, scale: 1.06 }}
-        animate={{
-          opacity: 1,
-          scale: [1.06, 1.0, 1.04, 0.99, 1.06],
-          x: ["0%", "-1%", "0.8%", "-0.3%", "0%"],
-          y: ["0%", "0.8%", "-0.5%", "0.3%", "0%"],
-        }}
-        transition={{
-          opacity: { duration: 1.8, ease: "easeOut" },
-          scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
-          x: { duration: 28, repeat: Infinity, ease: "easeInOut" },
-          y: { duration: 28, repeat: Infinity, ease: "easeInOut" },
-        }}
+        initial={{ opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.8, ease: "easeOut" }}
+        loading="eager"
+        fetchPriority="high"
       />
 
       {/* Gradient overlay — виньетка + тёмный низ */}
