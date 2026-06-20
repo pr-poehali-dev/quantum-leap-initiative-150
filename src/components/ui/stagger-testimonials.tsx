@@ -5,147 +5,147 @@ import { cn } from "@/lib/utils"
 
 const SQRT_5000 = Math.sqrt(5000)
 
-// Running club testimonials data with randomly generated icons
+// Premium real estate testimonials
 const testimonials = [
   {
     tempId: 0,
     testimonial:
-      "Stride Collective изменил мою жизнь. От попыток пробежать 5 минут до первого марафона — это сообщество верило в меня, когда я сам в себя не верил.",
-    by: "Сергей Иванов, марафонец",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=SergeyIvanov&backgroundColor=3b82f6&textColor=ffffff",
+      "Искал пентхаус в центре Киева полгода. LUMIÈRE нашли идеальный вариант за две недели. Сделка прошла незаметно — всё взяли на себя. Теперь каждое утро встречаю с видом на Днепр.",
+    by: "Олександр Мельник, CEO",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=OleksandrMelnyk&backgroundColor=1a1a2e&textColor=ffffff",
   },
   {
     tempId: 1,
     testimonial:
-      "Я боялась присоединиться к беговой группе, но Stride Collective встретил меня с распростертыми объятиями. Теперь у меня друзья на всю жизнь и уверенность достигать любых целей.",
-    by: "Марина Петрова, трейлраннер",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=MarinaPetrova&backgroundColor=10b981&textColor=ffffff",
+      "Хотела особняк с закрытой территорией и своим садом. Показали три варианта — все три попали в точку. Выбрать было сложно, но менеджер помог расставить приоритеты. Живу в доме мечты.",
+    by: "Вікторія Бондаренко, владелец бизнеса",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=ViktoriyaBondarenko&backgroundColor=2d1b69&textColor=ffffff",
   },
   {
     tempId: 2,
     testimonial:
-      "Энергетика на пробежках Stride Collective заразительна. Быстрый ты или медленный — все болеют за тебя. Здесь не соревнование, здесь сообщество.",
-    by: "Анна Козлова, любитель 5К",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AnnaKozlova&backgroundColor=8b5cf6&textColor=ffffff",
+      "Приобрела виллу как инвестицию. Команда LUMIÈRE подготовила полный анализ рынка, сопроводила юридически. Через год объект вырос на 28%. Работаю с ними постоянно.",
+    by: "Ірина Коваленко, инвестор",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=IrynaKovalenko&backgroundColor=0f3460&textColor=ffffff",
   },
   {
     tempId: 3,
     testimonial:
-      "После лет одиночных пробежек Stride Collective стал для меня открытием. Групповые тренировки помогли выйти на личные рекорды, о которых я и мечтать не мог.",
-    by: "Дмитрий Смирнов, спринтер",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=DmitrySmirnov&backgroundColor=ef4444&textColor=ffffff",
+      "Переезжал из Лондона, нужна была резиденция класса A. LUMIÈRE показали закрытые объекты, которых нет на открытом рынке. Очень ценю приватность и профессионализм команды.",
+    by: "Максим Дорошенко, финансист",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=MaksymDoroshenko&backgroundColor=16213e&textColor=ffffff",
   },
   {
     tempId: 4,
     testimonial:
-      "Stride Collective научил меня, что бег — это не просто тренировка. Это терапия, дружба и приключение в одном флаконе. Этот клуб спас мое ментальное здоровье.",
-    by: "Елена Новикова, осознанный бегун",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=ElenaNovikova&backgroundColor=f59e0b&textColor=ffffff",
+      "Покупал квартиру для жены в подарок. Команда всё организовала конфиденциально и красиво. Вручение стало настоящим сюрпризом. LUMIÈRE — это не агентство, это консьерж-сервис.",
+    by: "Андрій Шевченко, предприниматель",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AndriyShevchenko&backgroundColor=533483&textColor=ffffff",
   },
   {
     tempId: 5,
     testimonial:
-      "От дивана до 10К за 6 месяцев с поддержкой Stride Collective. Они принимают тебя таким, какой ты есть, и помогают понять, куда ты можешь дойти. Настоящая магия.",
-    by: "Алексей Морозов, история успеха",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AlexeyMorozov&backgroundColor=6366f1&textColor=ffffff",
+      "Долго искала что-то с характером — не типовые метры, а настоящая архитектура. LUMIÈRE предложили объект, о существовании которого я не подозревала. Первый просмотр — сразу согласилась.",
+    by: "Наталія Тимошенко, архитектор",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=NataliyaTymoshenko&backgroundColor=1b1b2f&textColor=ffffff",
   },
   {
     tempId: 6,
     testimonial:
-      "Рассветные пробежки со Stride Collective — это духовный опыт. Есть что-то мощное в том, чтобы двигаться вместе, пока мир просыпается вокруг нас.",
-    by: "Айгуль Рахимова, рассветный патруль",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AigulRahimova&backgroundColor=ec4899&textColor=ffffff",
+      "Три покупки через LUMIÈRE за пять лет. Каждый раз — точное попадание в запрос, честная цена и чистая сделка. Другие агентства для меня больше не существуют.",
+    by: "Роман Кравченко, девелопер",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=RomanKravchenko&backgroundColor=0d0d0d&textColor=ffffff",
   },
   {
     tempId: 7,
     testimonial:
-      "Я вступила в Stride Collective после переезда в новый город. Нашла не только беговое племя, но и настоящую семью. Движение здесь — это образ жизни.",
-    by: "Ольга Ким, строитель сообщества",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=OlgaKim&backgroundColor=06b6d4&textColor=ffffff",
+      "Приятно удивила скорость работы. Заявку подала вечером, утром уже был готов список объектов. Закрыли сделку за 10 дней. Профессионалы, которые уважают время клиента.",
+    by: "Олена Павленко, юрист",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=OlenaPavlenko&backgroundColor=1e3a5f&textColor=ffffff",
   },
   {
     tempId: 8,
     testimonial:
-      "Stride Collective празднует каждую победу, даже самую маленькую. Мой первый километр ощущался как олимпийское золото с этой командой, болеющей за меня.",
-    by: "Наталья Соколова, герой первого км",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=NataliyaSokolova&backgroundColor=f97316&textColor=ffffff",
+      "Искал загородную резиденцию с конюшней и лесом. Казалось, нереальный запрос для Киева. LUMIÈRE нашли именно это — в 30 минутах от города. Вот что значит знать рынок.",
+    by: "Сергій Литвиненко, предприниматель",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=SerhiyLytvynenko&backgroundColor=2e4057&textColor=ffffff",
   },
   {
     tempId: 9,
     testimonial:
-      "Тренировочные планы в Stride Collective невероятные. Я прошел путь от еле добегающего 5К до квалификации на Бостонский марафон всего за два года.",
-    by: "Михаил Волков, Бостонский квалификант",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=MikhailVolkov&backgroundColor=84cc16&textColor=ffffff",
+      "Работала с LUMIÈRE по рекомендации партнёра. Теперь сама рекомендую всем в своём окружении. Это единственное агентство, где чувствуешь себя единственным клиентом.",
+    by: "Катерина Руденко, топ-менеджер",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=KaterynaRudenko&backgroundColor=3d2b1f&textColor=ffffff",
   },
   {
     tempId: 10,
     testimonial:
-      "Что я люблю в Stride Collective — это разнообразие. Бегуны всех возрастов, с разным опытом и способностями объединяются одной страстью.",
-    by: "София Родригес, чемпион разнообразия",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=SofiaRodriguez&backgroundColor=a855f7&textColor=ffffff",
+      "Купил апартаменты для дочери на учёбу — хотел лучшее. LUMIÈRE подобрали объект в 5 минутах от университета с консьерж-сервисом. Спокоен за неё полностью.",
+    by: "Василь Гончаренко, предприниматель",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=VasylHoncharenko&backgroundColor=1c3144&textColor=ffffff",
   },
   {
     tempId: 11,
     testimonial:
-      "Дисциплина в Stride Collective не имеет равных. Когда знаешь, что твоя беговая семья ждет тебя — выходишь на пробежку несмотря ни на что.",
-    by: "Тимур Асланов, король постоянства",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=TimurAslanov&backgroundColor=059669&textColor=ffffff",
+      "Редкий случай, когда агентство думает о тебе, а не о комиссии. Отговорили от двух сомнительных объектов и нашли лучший. Честность — главная ценность LUMIÈRE.",
+    by: "Тетяна Власенко, врач",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=TetianaVlasenko&backgroundColor=2b2d42&textColor=ffffff",
   },
   {
     tempId: 12,
     testimonial:
-      "Трейловая группа Stride Collective открыла мне самые красивые места, о которых я и не знал. Бег стал моим способом исследовать мир.",
-    by: "Нина Павлова, исследователь троп",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=NinaPavlova&backgroundColor=0ea5e9&textColor=ffffff",
+      "Сложная сделка с международным финансированием. LUMIÈRE скоординировали всех участников — банки, нотариусы, юристы. Я просто подписал документы. Высший класс.",
+    by: "Дмитро Савченко, банкир",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=DmytroSavchenko&backgroundColor=14213d&textColor=ffffff",
   },
   {
     tempId: 13,
     testimonial:
-      "Разговоры после пробежек в Stride Collective ценны не меньше самих пробежек. Мы решаем мировые проблемы километр за километром.",
-    by: "Роман Ким, философ бега",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=RomanKim&backgroundColor=dc2626&textColor=ffffff",
+      "Меня привлекла не цена, а репутация. После первой встречи стало ясно — это другой уровень сервиса. Закрытая база объектов, индивидуальный менеджер, полная конфиденциальность.",
+    by: "Людмила Захаренко, политик",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=LudmylaZakharenko&backgroundColor=1a0a2e&textColor=ffffff",
   },
   {
     tempId: 14,
     testimonial:
-      "Я никогда не думала, что стану бегуном, но дружелюбный к новичкам подход Stride Collective сделал это возможным. Теперь не представляю жизни без бега.",
-    by: "Екатерина Орлова, позднее цветение",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=EkaterinaOrlova&backgroundColor=7c3aed&textColor=ffffff",
+      "Вложил в недвижимость вместо акций. LUMIÈRE дали аналитику по пяти районам и помогли выбрать самый перспективный. Через 18 месяцев доходность превысила прогноз на 15%.",
+    by: "Олег Марченко, инвестор",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=OlehMarchenko&backgroundColor=0c1b33&textColor=ffffff",
   },
   {
     tempId: 15,
     testimonial:
-      "Поддержка при травмах в Stride Collective потрясающая. Когда я выбыл, они поддерживали мою мотивацию и помогли вернуться сильнее.",
-    by: "Даниил Пак, история возвращения",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=DaniilPak&backgroundColor=ea580c&textColor=ffffff",
+      "Продавала родительский дом — сложно эмоционально. Команда LUMIÈRE была деликатна и внимательна. Нашли покупателя, который действительно оценил дом. Спасибо за человечность.",
+    by: "Аліна Поліщук, дизайнер",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AlinaPolishchuk&backgroundColor=25274d&textColor=ffffff",
   },
   {
     tempId: 16,
     testimonial:
-      "Благотворительные забеги Stride Collective придают нашим километрам смысл. Мы бежим не только для себя — мы бежим, чтобы изменить мир к лучшему.",
-    by: "Раиса Грин, чемпион благотворительности",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=RaisaGrin&backgroundColor=16a34a&textColor=ffffff",
+      "Как иностранный покупатель, боялся юридических сложностей. LUMIÈRE сопроводили весь процесс на английском, объяснили каждый нюанс. Сделка прошла без единого вопроса.",
+    by: "James Harrington, UK investor",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=JamesHarrington&backgroundColor=1f4068&textColor=ffffff",
   },
   {
     tempId: 17,
     testimonial:
-      "Мастер-классы по технике в Stride Collective преобразили мою беговую форму. Я стал быстрее и забыл о травмах благодаря экспертному руководству.",
-    by: "Кирилл Вонг, перфекционист формы",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=KirillVong&backgroundColor=2563eb&textColor=ffffff",
+      "Жена хотела терассу с панорамой, я — подземный паркинг. Нашли объект, где есть и то, и другое. До сих пор смеёмся — LUMIÈRE решили наш спор лучше, чем мы сами.",
+    by: "Павло та Олена Кириленко",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=PavloKyrylenko&backgroundColor=1d3557&textColor=ffffff",
   },
   {
     tempId: 18,
     testimonial:
-      "Виртуальные забеги Stride Collective во время локдауна спасли мой рассудок. Даже когда мы не могли бегать вместе, мы оставались связаны как сообщество.",
-    by: "Александра Фостер, виртуальный воин",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AlexandraFoster&backgroundColor=be185d&textColor=ffffff",
+      "За 20 лет покупал недвижимость в пяти странах. Сервис LUMIÈRE сравним с лучшими агентствами Монако и Дубая. Если бы они работали по всему миру — пользовался бы только ими.",
+    by: "Георгій Остапенко, серийный инвестор",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=GeorgiyOstapenko&backgroundColor=0b132b&textColor=ffffff",
   },
   {
     tempId: 19,
     testimonial:
-      "Наставничество в Stride Collective меняет жизни. Опытные бегуны берут новичков под крыло и щедро делятся своей мудростью.",
-    by: "Карлос Мендес, благодарный ученик",
-    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=CarlosMendez&backgroundColor=0891b2&textColor=ffffff",
+      "Нужна была квартира рядом с офисом за 3 дня — командировка. LUMIÈRE справились. Объект оказался настолько хорош, что в итоге купил его. Теперь это мой второй дом в Киеве.",
+    by: "Антон Федоренко, топ-менеджер",
+    imgSrc: "https://api.dicebear.com/7.x/initials/svg?seed=AntonFedorenko&backgroundColor=222831&textColor=ffffff",
   },
 ]
 

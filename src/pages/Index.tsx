@@ -2,10 +2,25 @@ import HeroSection from "@/components/HeroSection"
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll"
 import { Timeline } from "@/components/ui/timeline"
 import { StaggerTestimonials } from "@/components/ui/stagger-testimonials"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import SmoothScrollHero from "@/components/ui/smooth-scroll-hero"
+import { useState } from "react"
+import Icon from "@/components/ui/icon"
 
 export default function Index() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [formData, setFormData] = useState({ name: "", phone: "", comment: "" })
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitted(true)
+    setTimeout(() => {
+      setIsModalOpen(false)
+      setSubmitted(false)
+      setFormData({ name: "", phone: "", comment: "" })
+    }, 2500)
+  }
   const missionStatement =
     "В LUMIÈRE Estates мы верим: дом — это не просто стены, это пространство для жизни мечты. Мы создаём подборку безупречных объектов премиум-класса для тех, кто ценит архитектуру, приватность и совершенство деталей. От панорамных пентхаусов в сердце города до уединённых вилл у воды — каждый объект в нашем портфолио проходит строгий отбор. Мы не продаём квадратные метры. Мы открываем двери в особый образ жизни, где роскошь становится повседневностью, а каждый рассвет встречаешь в идеальном интерьере."
 
@@ -42,7 +57,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <HeroSection />
+      <HeroSection onCtaClick={() => setIsModalOpen(true)} />
 
       {/* Mission Statement Section with Grid Background */}
       <section id="mission" className="relative min-h-screen flex items-center justify-center py-20 bg-white">
@@ -107,6 +122,99 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Modal Form */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+            onClick={(e) => e.target === e.currentTarget && setIsModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.97 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white w-full max-w-md relative"
+              style={{ clipPath: "polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% 100%, calc(100% - 30px) 100%, 30px 100%, 0 100%, 0 0)" }}
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors z-10"
+              >
+                <Icon name="X" size={20} />
+              </button>
+
+              {submitted ? (
+                <div className="p-10 text-center">
+                  <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Icon name="Check" size={28} className="text-white" />
+                  </div>
+                  <h3 className="text-2xl font-black tracking-wider text-gray-900 mb-3">ЗАЯВКА ПРИНЯТА</h3>
+                  <p className="text-gray-600">Наш менеджер свяжется с вами в течение 30 минут</p>
+                </div>
+              ) : (
+                <div className="p-8 md:p-10">
+                  <h3 className="text-2xl font-black tracking-wider text-gray-900 mb-2">ЗАПИСАТЬСЯ НА ПРОСМОТР</h3>
+                  <p className="text-gray-500 text-sm mb-8">Оставьте контакты — мы подберём удобное время</p>
+
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                      <label className="block text-xs font-bold tracking-widest text-gray-500 uppercase mb-2">Ваше имя</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Олександр Мельник"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full border-b-2 border-gray-200 focus:border-gray-900 outline-none py-3 text-gray-900 text-base transition-colors bg-transparent placeholder:text-gray-300"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold tracking-widest text-gray-500 uppercase mb-2">Телефон</label>
+                      <input
+                        required
+                        type="tel"
+                        placeholder="+380 XX XXX XX XX"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full border-b-2 border-gray-200 focus:border-gray-900 outline-none py-3 text-gray-900 text-base transition-colors bg-transparent placeholder:text-gray-300"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold tracking-widest text-gray-500 uppercase mb-2">Пожелания (необязательно)</label>
+                      <textarea
+                        rows={3}
+                        placeholder="Тип объекта, район, бюджет..."
+                        value={formData.comment}
+                        onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                        className="w-full border-b-2 border-gray-200 focus:border-gray-900 outline-none py-3 text-gray-900 text-base transition-colors bg-transparent placeholder:text-gray-300 resize-none"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-gray-900 text-white font-bold tracking-widest text-sm uppercase py-4 hover:bg-gray-700 transition-colors duration-300 mt-4"
+                    >
+                      Отправить заявку
+                    </button>
+                  </form>
+
+                  <div className="mt-6 pt-6 border-t border-gray-100 flex items-center justify-center gap-6 text-xs text-gray-400">
+                    <span className="flex items-center gap-1.5"><Icon name="Lock" size={12} /> Полная конфиденциальность</span>
+                    <span className="flex items-center gap-1.5"><Icon name="Clock" size={12} /> Ответ за 30 мин</span>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Smooth Scroll Hero with CTA Overlay */}
       <section id="join" className="relative">
         <SmoothScrollHero
@@ -115,6 +223,7 @@ export default function Index() {
           mobileImage="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/7e8a6d46-41ca-4933-af25-0dd63476cf91.jpg"
           initialClipPercentage={30}
           finalClipPercentage={70}
+          onCtaClick={() => setIsModalOpen(true)}
         />
       </section>
     </div>

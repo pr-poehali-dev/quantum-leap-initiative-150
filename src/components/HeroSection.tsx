@@ -2,7 +2,11 @@ import { LiquidButton } from "@/components/ui/liquid-glass-button"
 import { Menu, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { useState } from "react"
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  onCtaClick?: () => void
+}
+
+export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -117,7 +121,7 @@ export default function HeroSection() {
           <LiquidButton
             size="xxl"
             className="font-semibold text-lg tracking-wide"
-            onClick={() => scrollToSection("#join")}
+            onClick={onCtaClick}
           >
             Смотреть объекты
           </LiquidButton>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контакти — LUMIÈRE Estates</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #0d0d0d;
+      color: #f5f0e8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      max-width: 520px;
+      width: 100%;
+      padding: 56px 48px;
+      clip-path: polygon(24px 0%, calc(100% - 24px) 0%, 100% 24px, 100% 100%, calc(100% - 24px) 100%, 24px 100%, 0 100%, 0 0);
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+    }
+
+    .logo {
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #f5f0e8;
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #666;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: #c9a96e;
+      margin-bottom: 40px;
+    }
+
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.2s;
+    }
+
+    .contact-item:hover { opacity: 0.75; }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .contact-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #c9a96e;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .contact-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .contact-value {
+      font-size: 16px;
+      color: #f5f0e8;
+      letter-spacing: 0.02em;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid #1f1f1f;
+      font-size: 11px;
+      color: #444;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">LUMIÈRE Estates</div>
+    <h1>Контакти</h1>
+    <p class="subtitle">Преміум нерухомість · Київ</p>
+    <div class="divider"></div>
+
+    <div class="contacts">
+
+      <!-- Phone -->
+      <a href="tel:+380442001188" class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.72 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.63 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-1.37a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Телефон</div>
+          <div class="contact-value">+380 44 200 11 88</div>
+        </div>
+      </a>
+
+      <!-- Telegram -->
+      <a href="https://t.me/lumiere_estates" target="_blank" class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Telegram</div>
+          <div class="contact-value">@lumiere_estates</div>
+        </div>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/lumiere.estates.kyiv" target="_blank" class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="#c9a96e" stroke="none"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Instagram</div>
+          <div class="contact-value">@lumiere.estates.kyiv</div>
+        </div>
+      </a>
+
+      <!-- Address -->
+      <div class="contact-item" style="cursor: default;">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Адреса офісу</div>
+          <div class="contact-value">вул. Хрещатик, 15, оф. 8<br>Київ, 01001</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">Конфіденційність гарантована · Пн–Сб 9:00–20:00</div>
+  </div>
+</body>
+</html>

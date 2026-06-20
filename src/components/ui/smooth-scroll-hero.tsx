@@ -10,6 +10,7 @@ interface SmoothScrollHeroProps {
   mobileImage: string
   initialClipPercentage?: number
   finalClipPercentage?: number
+  onCtaClick?: () => void
 }
 
 const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
@@ -18,6 +19,7 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
   mobileImage,
   initialClipPercentage = 25,
   finalClipPercentage = 75,
+  onCtaClick,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -148,6 +150,7 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
             <LiquidButton
               size="xxl"
               className="font-bold text-xl tracking-wide px-12 py-4 bg-gray-900 hover:bg-gray-800 text-white border-2 border-gray-900 hover:scale-105 transition-all duration-300"
+              onClick={onCtaClick}
             >
               ОСТАВИТЬ ЗАЯВКУ
             </LiquidButton>
