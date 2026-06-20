@@ -36,20 +36,18 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   return (
     <div id="hero" className="relative h-screen w-full overflow-hidden bg-black">
 
-      {/* ── Фон: Ken Burns — медленный zoom + slow pan ── */}
-      <motion.div
-        className="absolute inset-[-6%]"
-        style={{
-          backgroundImage: `url('${HERO_IMAGE}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-        initial={{ opacity: 0, scale: 1.12 }}
+      {/* ── Фон: картинка целиком, Ken Burns ── */}
+      <motion.img
+        src={HERO_IMAGE}
+        alt="LUMIÈRE Estates"
+        className="absolute inset-0 w-full h-full"
+        style={{ objectFit: "contain", objectPosition: "center" }}
+        initial={{ opacity: 0, scale: 1.06 }}
         animate={{
           opacity: 1,
-          scale: [1.12, 1.06, 1.1, 1.05, 1.12],
-          x: ["0%", "-1.5%", "1%", "-0.5%", "0%"],
-          y: ["0%", "1%", "-0.8%", "0.5%", "0%"],
+          scale: [1.06, 1.0, 1.04, 0.99, 1.06],
+          x: ["0%", "-1%", "0.8%", "-0.3%", "0%"],
+          y: ["0%", "0.8%", "-0.5%", "0.3%", "0%"],
         }}
         transition={{
           opacity: { duration: 1.8, ease: "easeOut" },
