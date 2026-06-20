@@ -1,15 +1,48 @@
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
 import { Menu, X } from "lucide-react"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface HeroSectionProps {
   onCtaClick?: () => void
 }
 
+// Три кадра: закат → сумерки → ночь
+const SLIDES = [
+  {
+    src: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/82cb225b-001b-468f-8c64-c6c5e712751d.jpg",
+    duration: 5000,
+  },
+  {
+    src: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/561f1bd3-c595-4b6b-a11f-032241244427.jpg",
+    duration: 4000,
+  },
+  {
+    src: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/1f8bbf65-68d9-4a22-8f5e-9133b3158c9b.jpg",
+    duration: 6000,
+  },
+]
+
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [videoLoaded, setVideoLoaded] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Sticky nav — стекло при скроле
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Автопереход закат → сумерки → ночь (с возвратом к закату)
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % SLIDES.length)
+    }, SLIDES[currentSlide].duration)
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [currentSlide])
 
   const navItems = [
     { name: "Главная", href: "#hero" },
@@ -20,101 +53,121 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   ]
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })
     setIsMenuOpen(false)
   }
 
   return (
     <div id="hero" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Poster/fallback — всегда видна до загрузки видео */}
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/5acffee2-9c46-4015-9b16-dc7233659dde.jpg')`,
-        }}
-        initial={{ scale: 1.12, opacity: 0 }}
-        animate={{ scale: 1, opacity: videoLoaded ? 0 : 1 }}
-        transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-      />
 
-      {/* Video Background — Ken Burns zoom-out при появлении */}
-      <motion.video
-        autoPlay
-        muted
-        loop
-        playsInline
-        onCanPlay={() => setVideoLoaded(true)}
-        className="absolute inset-0 w-full h-full object-cover"
-        initial={{ scale: 1.12, opacity: 0 }}
-        animate={{ scale: videoLoaded ? 1 : 1.12, opacity: videoLoaded ? 1 : 0 }}
-        transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-a-luxury-estate-4047/1080p.mp4" type="video/mp4" />
-        <source src="https://cdn.coverr.co/videos/coverr-luxury-mansion-with-pool-8540/1080p.mp4" type="video/mp4" />
-      </motion.video>
+      {/* ── Crossfade слайды: закат → сумерки → ночь ── */}
+      <AnimatePresence>
+        <motion.div
+          key={currentSlide}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${SLIDES[currentSlide].src}')` }}
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </AnimatePresence>
 
-      {/* Dark overlay — тоже появляется плавно */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.8, delay: 0.2 }}
-      />
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/65" />
 
-      {/* Light sweep — световой блик по видео */}
+      {/* Light sweep */}
       <div className="absolute inset-0 light-sweep overflow-hidden pointer-events-none" />
 
-      {/* Navigation */}
+      {/* ── STICKY NAV ── */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-20 flex items-center justify-between p-6 md:p-8"
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 transition-all duration-500 ${
+          scrolled
+            ? "py-3 bg-black/40 backdrop-blur-xl border-b border-white/10 shadow-lg"
+            : "py-6 md:py-8 bg-transparent"
+        }`}
       >
-        <div className="text-white font-bold text-xl tracking-wider">LUMIÈRE</div>
+        {/* Logo */}
+        <button
+          onClick={() => scrollToSection("#hero")}
+          className="flex items-center gap-2.5 group"
+        >
+          {/* SVG-иконка логотипа */}
+          <svg
+            width="28" height="28" viewBox="0 0 28 28" fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="transition-transform duration-500 group-hover:rotate-12"
+          >
+            <polygon
+              points="14,2 26,8 26,20 14,26 2,20 2,8"
+              stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" fill="none"
+            />
+            <polygon
+              points="14,6 22,10 22,18 14,22 6,18 6,10"
+              stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" fill="none"
+            />
+            <circle cx="14" cy="14" r="2.5" fill="rgba(255,255,255,0.9)" />
+            <line x1="14" y1="6" x2="14" y2="11" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
+            <line x1="14" y1="17" x2="14" y2="22" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
+            <line x1="6" y1="10" x2="11.5" y2="13" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
+            <line x1="16.5" y1="15" x2="22" y2="18" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
+            <line x1="22" y1="10" x2="16.5" y2="13" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
+            <line x1="11.5" y1="15" x2="6" y2="18" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
+          </svg>
+          <span className="text-white font-bold text-lg tracking-[0.2em]">LUMIÈRE</span>
+        </button>
 
-        {/* Desktop Navigation */}
+        {/* Desktop nav */}
         <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
             <button
               key={item.name}
               onClick={() => scrollToSection(item.href)}
-              className="relative text-white hover:text-gray-300 transition-colors duration-300 font-medium tracking-wide pb-1 group"
+              className="relative text-white/90 hover:text-white transition-colors duration-300 font-medium tracking-wide pb-1 group text-sm"
             >
               {item.name}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full" />
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-white transition-all duration-300 ease-out group-hover:w-full" />
             </button>
           ))}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile menu btn */}
         <button
           className="md:hidden text-white hover:text-gray-300 transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </motion.nav>
 
-      {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
-        <div className="absolute top-0 left-0 w-full h-full bg-black/90 z-30 md:hidden">
-          <div className="flex flex-col items-center justify-center h-full space-y-8">
-            {navItems.map((item) => (
-              <button
+      {/* Mobile fullscreen menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/92 backdrop-blur-xl z-40 md:hidden flex flex-col items-center justify-center gap-10"
+          >
+            {navItems.map((item, i) => (
+              <motion.button
                 key={item.name}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => scrollToSection(item.href)}
-                className="text-white text-2xl font-bold tracking-wider hover:text-gray-300 transition-colors duration-300"
+                className="text-white text-2xl font-black tracking-wider hover:text-gray-300 transition-colors"
               >
                 {item.name}
-              </button>
+              </motion.button>
             ))}
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Hero Content */}
       <div className="relative z-10 flex h-full items-center justify-center px-6">
@@ -122,17 +175,17 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xs md:text-sm font-medium tracking-[0.4em] uppercase text-gray-300 mb-6"
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xs md:text-sm font-medium tracking-[0.45em] uppercase text-gray-300 mb-6"
           >
             Преміум нерухомість · Київ
           </motion.p>
 
           <div className="overflow-hidden mb-4">
             <motion.h1
-              initial={{ y: "100%" }}
+              initial={{ y: "105%" }}
               animate={{ y: 0 }}
-              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="text-5xl md:text-7xl lg:text-8xl font-black tracking-wider leading-none"
             >
               LUMIÈRE
@@ -144,7 +197,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl font-light tracking-wide mb-10 text-gray-200"
           >
             Недвижимость, которой восхищаются
@@ -153,7 +206,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <LiquidButton
               size="xxl"
@@ -166,18 +219,29 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Day/night progress dots */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+        transition={{ duration: 1, delay: 1.8 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3"
       >
-        <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
+        <div className="flex gap-2.5 mb-2">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className={`h-px transition-all duration-500 ${
+                i === currentSlide ? "w-8 bg-white" : "w-3 bg-white/35 hover:bg-white/60"
+              }`}
+            />
+          ))}
+        </div>
+        <span className="text-white/35 text-[10px] tracking-widest uppercase">Scroll</span>
         <motion.div
-          animate={{ scaleY: [1, 0.4, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-white/50 to-transparent origin-top"
+          animate={{ scaleY: [1, 0.3, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-8 bg-gradient-to-b from-white/45 to-transparent origin-top"
         />
       </motion.div>
     </div>
