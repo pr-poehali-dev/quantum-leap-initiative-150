@@ -294,8 +294,8 @@ export default function Index() {
       <section id="join" className="relative">
         <SmoothScrollHero
           scrollHeight={2500}
-          desktopImage="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/7e8a6d46-41ca-4933-af25-0dd63476cf91.jpg"
-          mobileImage="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/7e8a6d46-41ca-4933-af25-0dd63476cf91.jpg"
+          desktopImage="https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781968576/ChatGPT_Image_20_%D0%B8%D1%8E%D0%BD._2026_%D0%B3._18_15_51_nwi7mv.png"
+          mobileImage="https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781968576/ChatGPT_Image_20_%D0%B8%D1%8E%D0%BD._2026_%D0%B3._18_15_51_nwi7mv.png"
           initialClipPercentage={30}
           finalClipPercentage={70}
           onCtaClick={() => setIsModalOpen(true)}

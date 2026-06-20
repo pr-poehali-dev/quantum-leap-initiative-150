@@ -52,41 +52,60 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
           willChange: "transform",
         }}
       >
-        {/* Desktop background — Ken Burns внутри parallax */}
+        {/* Desktop background — Ken Burns + parallax scroll */}
         <motion.div
           className="absolute inset-0 hidden md:block overflow-hidden"
-          style={{ backgroundSize: "cover", backgroundPosition: "center" }}
         >
           <motion.div
-            className="absolute inset-[-8%] ken-burns"
+            className="absolute inset-[-10%]"
             style={{
               backgroundImage: `url(${desktopImage})`,
               backgroundSize: "cover",
-              backgroundPosition: "center",
+              backgroundPosition: "center bottom",
               backgroundRepeat: "no-repeat",
               scale,
+            }}
+            animate={{
+              scale: [1.08, 1.04, 1.09, 1.03, 1.08],
+              x: ["0%", "-1.2%", "0.8%", "-0.4%", "0%"],
+              y: ["0%", "0.6%", "-0.5%", "0.3%", "0%"],
+            }}
+            transition={{
+              scale: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+              x: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+              y: { duration: 30, repeat: Infinity, ease: "easeInOut" },
             }}
           />
         </motion.div>
         {/* Mobile background */}
         <motion.div
           className="absolute inset-0 md:hidden overflow-hidden"
-          style={{ backgroundSize: "cover", backgroundPosition: "center" }}
         >
           <motion.div
-            className="absolute inset-[-8%] ken-burns"
+            className="absolute inset-[-10%]"
             style={{
               backgroundImage: `url(${mobileImage})`,
               backgroundSize: "cover",
-              backgroundPosition: "center",
+              backgroundPosition: "center bottom",
               backgroundRepeat: "no-repeat",
               scale,
+            }}
+            animate={{
+              scale: [1.08, 1.04, 1.09, 1.03, 1.08],
+              x: ["0%", "-1.2%", "0.8%", "-0.4%", "0%"],
+              y: ["0%", "0.6%", "-0.5%", "0.3%", "0%"],
+            }}
+            transition={{
+              scale: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+              x: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+              y: { duration: 30, repeat: Infinity, ease: "easeInOut" },
             }}
           />
         </motion.div>
 
-        {/* Dark overlay + gradient vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/50" />
+        {/* Тёплый оверлей под ночную виллу */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
 
         {/* Light sweep эффект */}
         <div className="absolute inset-0 light-sweep overflow-hidden pointer-events-none" />
