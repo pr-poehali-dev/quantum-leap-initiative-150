@@ -1,6 +1,7 @@
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 interface HeroSectionProps {
   onCtaClick?: () => void
@@ -90,32 +91,67 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
       {/* Hero Content */}
       <div className="relative z-10 flex h-full items-center justify-center px-6">
         <div className="text-center text-white max-w-4xl">
-          <p className="text-xs md:text-sm font-medium tracking-[0.4em] uppercase text-gray-300 mb-6">
-            Преміум нерухомість · Київ
-          </p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-wider mb-4 leading-none">
-            LUMIÈRE
-            <br />
-            ESTATES
-          </h1>
-          <p className="text-xl md:text-2xl font-light tracking-wide mb-10 text-gray-200">
-            Недвижимость, которой восхищаются
-          </p>
-          <LiquidButton
-            size="xxl"
-            className="font-semibold text-lg tracking-wide"
-            onClick={onCtaClick}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xs md:text-sm font-medium tracking-[0.4em] uppercase text-gray-300 mb-6"
           >
-            Смотреть объекты
-          </LiquidButton>
+            Преміум нерухомість · Київ
+          </motion.p>
+
+          <div className="overflow-hidden mb-4">
+            <motion.h1
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="text-5xl md:text-7xl lg:text-8xl font-black tracking-wider leading-none"
+            >
+              LUMIÈRE
+              <br />
+              ESTATES
+            </motion.h1>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xl md:text-2xl font-light tracking-wide mb-10 text-gray-200"
+          >
+            Недвижимость, которой восхищаются
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <LiquidButton
+              size="xxl"
+              className="font-semibold text-lg tracking-wide"
+              onClick={onCtaClick}
+            >
+              Смотреть объекты
+            </LiquidButton>
+          </motion.div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.6 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+      >
         <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-10 bg-gradient-to-b from-white/40 to-transparent" />
-      </div>
+        <motion.div
+          animate={{ scaleY: [1, 0.4, 1] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-10 bg-gradient-to-b from-white/50 to-transparent origin-top"
+        />
+      </motion.div>
     </div>
   )
 }

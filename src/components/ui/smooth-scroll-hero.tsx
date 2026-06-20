@@ -87,84 +87,107 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
           }}
         >
           <div className="text-center text-white max-w-4xl mx-auto px-6">
-            {/* Main CTA Heading */}
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-wider mb-6 leading-none">
-              ГОТОВЫ НАЙТИ
-              <br />
-              <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-                ДОМ МЕЧТЫ?
-              </span>
-            </h2>
+            {/* Main CTA Heading — letter by letter reveal */}
+            <div className="overflow-hidden mb-4">
+              <motion.h2
+                initial={{ y: "110%" }}
+                whileInView={{ y: 0 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+                className="text-4xl md:text-6xl lg:text-7xl font-black tracking-wider leading-none"
+              >
+                ГОТОВЫ НАЙТИ
+                <br />
+                <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+                  ДОМ МЕЧТЫ?
+                </span>
+              </motion.h2>
+            </div>
 
             {/* Supporting Text */}
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 leading-relaxed font-medium">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              className="text-lg md:text-xl lg:text-2xl text-gray-200 mb-10 leading-relaxed font-medium"
+            >
               Доверьте поиск недвижимости тем, кто знает рынок премиум-класса изнутри.
               <br className="hidden md:block" />
               Закрытые объекты, персональный подбор и сопровождение сделки под ключ.
-            </p>
+            </motion.p>
 
-            {/* Stats Grid */}
+            {/* Stats Grid — stagger */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-white" />
+              {[
+                { icon: <Building2 className="w-5 h-5 text-white" />, value: "250+", label: "Объектов в портфолио" },
+                { icon: <MapPin className="w-5 h-5 text-white" />, value: "15+", label: "Локаций премиум-класса" },
+                { icon: <KeyRound className="w-5 h-5 text-white" />, value: "500+", label: "Сделок под ключ" },
+                { icon: <Award className="w-5 h-5 text-white" />, value: "12", label: "Лет на рынке" },
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  viewport={{ once: true }}
+                  className="text-center"
+                >
+                  <div className="flex justify-center mb-2">
+                    <motion.div
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
+                    >
+                      {stat.icon}
+                    </motion.div>
                   </div>
-                </div>
-                <div className="text-2xl md:text-3xl font-black text-white mb-1">250+</div>
-                <div className="text-xs md:text-sm text-gray-300 font-medium">Объектов в портфолио</div>
-              </div>
-
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-                <div className="text-2xl md:text-3xl font-black text-white mb-1">15+</div>
-                <div className="text-xs md:text-sm text-gray-300 font-medium">Локаций премиум-класса</div>
-              </div>
-
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <KeyRound className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-                <div className="text-2xl md:text-3xl font-black text-white mb-1">500+</div>
-                <div className="text-xs md:text-sm text-gray-300 font-medium">Сделок под ключ</div>
-              </div>
-
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Award className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-                <div className="text-2xl md:text-3xl font-black text-white mb-1">12</div>
-                <div className="text-xs md:text-sm text-gray-300 font-medium">Лет на рынке</div>
-              </div>
+                  <div className="text-2xl md:text-3xl font-black text-white mb-1">{stat.value}</div>
+                  <div className="text-xs md:text-sm text-gray-300 font-medium">{stat.label}</div>
+                </motion.div>
+              ))}
             </div>
 
             {/* CTA Button */}
-            <LiquidButton
-              size="xxl"
-              className="font-bold text-xl tracking-wide px-12 py-4 bg-gray-900 hover:bg-gray-800 text-white border-2 border-gray-900 hover:scale-105 transition-all duration-300"
-              onClick={onCtaClick}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
             >
-              ОСТАВИТЬ ЗАЯВКУ
-            </LiquidButton>
+              <LiquidButton
+                size="xxl"
+                className="font-bold text-xl tracking-wide px-12 py-4 bg-gray-900 hover:bg-gray-800 text-white border-2 border-gray-900 hover:scale-105 transition-all duration-300"
+                onClick={onCtaClick}
+              >
+                ОСТАВИТЬ ЗАЯВКУ
+              </LiquidButton>
+            </motion.div>
 
             {/* Trust Indicators */}
-            <div className="mt-12 pt-6 border-t border-white/20">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+              viewport={{ once: true }}
+              className="mt-12 pt-6 border-t border-white/20"
+            >
               <p className="text-xs text-gray-400 mb-3 font-medium">НАМ ДОВЕРЯЮТ СОСТОЯТЕЛЬНЫЕ ПОКУПАТЕЛИ</p>
               <div className="flex flex-wrap justify-center items-center gap-4 text-gray-300">
-                <span className="text-xs font-semibold">ЗАКРЫТЫЕ ОБЪЕКТЫ</span>
-                <span className="text-xs font-semibold">ПОЛНАЯ ПРИВАТНОСТЬ</span>
-                <span className="text-xs font-semibold">СОПРОВОЖДЕНИЕ СДЕЛКИ</span>
-                <span className="text-xs font-semibold">ПЕРСОНАЛЬНЫЙ ПОДБОР</span>
+                {["ЗАКРЫТЫЕ ОБЪЕКТЫ", "ПОЛНАЯ ПРИВАТНОСТЬ", "СОПРОВОЖДЕНИЕ СДЕЛКИ", "ПЕРСОНАЛЬНЫЙ ПОДБОР"].map((tag, i) => (
+                  <motion.span
+                    key={tag}
+                    initial={{ opacity: 0, x: -8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 1.2 + i * 0.08 }}
+                    viewport={{ once: true }}
+                    className="text-xs font-semibold"
+                  >
+                    {tag}
+                  </motion.span>
+                ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </motion.div>
