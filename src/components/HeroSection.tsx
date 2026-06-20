@@ -1,6 +1,6 @@
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
 import { Menu, X } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
 interface HeroSectionProps {
@@ -9,6 +9,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [videoLoaded, setVideoLoaded] = useState(false)
 
   const navItems = [
     { name: "Главная", href: "#hero" },
@@ -28,24 +29,51 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
 
   return (
     <div id="hero" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Video Background */}
-      <video
+      {/* Poster/fallback — всегда видна до загрузки видео */}
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/5acffee2-9c46-4015-9b16-dc7233659dde.jpg')`,
+        }}
+        initial={{ scale: 1.12, opacity: 0 }}
+        animate={{ scale: 1, opacity: videoLoaded ? 0 : 1 }}
+        transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+      />
+
+      {/* Video Background — Ken Burns zoom-out при появлении */}
+      <motion.video
         autoPlay
         muted
         loop
         playsInline
-        poster="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/5acffee2-9c46-4015-9b16-dc7233659dde.jpg"
+        onCanPlay={() => setVideoLoaded(true)}
         className="absolute inset-0 w-full h-full object-cover"
+        initial={{ scale: 1.12, opacity: 0 }}
+        animate={{ scale: videoLoaded ? 1 : 1.12, opacity: videoLoaded ? 1 : 0 }}
+        transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
       >
         <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-a-luxury-estate-4047/1080p.mp4" type="video/mp4" />
         <source src="https://cdn.coverr.co/videos/coverr-luxury-mansion-with-pool-8540/1080p.mp4" type="video/mp4" />
-      </video>
+      </motion.video>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      {/* Dark overlay — тоже появляется плавно */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.8, delay: 0.2 }}
+      />
+
+      {/* Light sweep — световой блик по видео */}
+      <div className="absolute inset-0 light-sweep overflow-hidden pointer-events-none" />
 
       {/* Navigation */}
-      <nav className="relative z-20 flex items-center justify-between p-6 md:p-8">
+      <motion.nav
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 flex items-center justify-between p-6 md:p-8"
+      >
         <div className="text-white font-bold text-xl tracking-wider">LUMIÈRE</div>
 
         {/* Desktop Navigation */}
@@ -69,7 +97,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </nav>
+      </motion.nav>
 
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (

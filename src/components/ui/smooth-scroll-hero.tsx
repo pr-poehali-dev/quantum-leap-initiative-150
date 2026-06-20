@@ -52,31 +52,44 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
           willChange: "transform",
         }}
       >
-        {/* Desktop background */}
+        {/* Desktop background — Ken Burns внутри parallax */}
         <motion.div
-          className="absolute inset-0 hidden md:block"
-          style={{
-            backgroundImage: `url(${desktopImage})`,
-            backgroundSize,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            scale,
-          }}
-        />
+          className="absolute inset-0 hidden md:block overflow-hidden"
+          style={{ backgroundSize: "cover", backgroundPosition: "center" }}
+        >
+          <motion.div
+            className="absolute inset-[-8%] ken-burns"
+            style={{
+              backgroundImage: `url(${desktopImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              scale,
+            }}
+          />
+        </motion.div>
         {/* Mobile background */}
         <motion.div
-          className="absolute inset-0 md:hidden"
-          style={{
-            backgroundImage: `url(${mobileImage})`,
-            backgroundSize,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            scale,
-          }}
-        />
+          className="absolute inset-0 md:hidden overflow-hidden"
+          style={{ backgroundSize: "cover", backgroundPosition: "center" }}
+        >
+          <motion.div
+            className="absolute inset-[-8%] ken-burns"
+            style={{
+              backgroundImage: `url(${mobileImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              scale,
+            }}
+          />
+        </motion.div>
 
-        {/* Dark overlay for better contrast */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Dark overlay + gradient vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/50" />
+
+        {/* Light sweep эффект */}
+        <div className="absolute inset-0 light-sweep overflow-hidden pointer-events-none" />
 
         {/* CTA Overlay */}
         <motion.div
