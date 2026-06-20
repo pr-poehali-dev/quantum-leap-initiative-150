@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import SmoothScrollHero from "@/components/ui/smooth-scroll-hero"
 import { useState } from "react"
 import Icon from "@/components/ui/icon"
+import { LiquidButton } from "@/components/ui/liquid-glass-button"
 
 export default function Index() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -186,13 +187,13 @@ export default function Index() {
 
           <div className="text-center">
             <p className="text-gray-600 text-xs tracking-widest uppercase mb-6">Пн – Сб · 9:00 – 20:00</p>
-            <button
+            <LiquidButton
+              size="xxl"
+              className="font-bold text-xl tracking-wide"
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-3 bg-white text-gray-900 font-bold tracking-widest text-sm uppercase px-10 py-4 hover:bg-gray-100 transition-colors duration-300"
             >
-              <Icon name="CalendarCheck" size={16} />
-              Записаться на просмотр
-            </button>
+              ОСТАВИТЬ ЗАЯВКУ
+            </LiquidButton>
           </div>
         </div>
       </section>

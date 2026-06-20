@@ -1,6 +1,6 @@
 import type * as React from "react"
 import { useRef } from "react"
-import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
 
 interface SmoothScrollHeroProps {
@@ -13,11 +13,9 @@ interface SmoothScrollHeroProps {
 }
 
 const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
-  scrollHeight = 1875,
+  scrollHeight = 2500,
   desktopImage,
   mobileImage,
-  initialClipPercentage = 25,
-  finalClipPercentage = 75,
   onCtaClick,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -27,58 +25,66 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
     offset: ["start start", "end start"],
   })
 
-  // Картинка раскрывается от центра до ПОЛНОГО экрана (0% - 100%)
-  const clipStart = useTransform(scrollYProgress, [0, 0.75], [initialClipPercentage, 0])
-  const clipEnd = useTransform(scrollYProgress, [0, 0.75], [finalClipPercentage, 100])
-  const clipPath = useMotionTemplate`polygon(${clipStart}% ${clipStart}%, ${clipEnd}% ${clipStart}%, ${clipEnd}% ${clipEnd}%, ${clipStart}% ${clipEnd}%)`
+  // Рамка сжимается → картинка раскрывается на весь экран
+  const margin = useTransform(scrollYProgress, [0, 0.6], [60, 0])
+  const borderRadius = useTransform(scrollYProgress, [0, 0.6], [24, 0])
 
-  // Кнопка появляется когда картинка почти полностью раскрыта
-  const btnOpacity = useTransform(scrollYProgress, [0.55, 0.75], [0, 1])
-  const btnY = useTransform(scrollYProgress, [0.55, 0.75], [20, 0])
+  // Кнопка появляется когда фото почти раскрылось
+  const btnOpacity = useTransform(scrollYProgress, [0.45, 0.65], [0, 1])
+  const btnY = useTransform(scrollYProgress, [0.45, 0.65], [20, 0])
 
   return (
     <div ref={containerRef} style={{ height: `${scrollHeight}px` }} className="relative w-full">
-      <motion.div
-        className="sticky top-0 h-screen w-full bg-black overflow-hidden"
-        style={{ clipPath, willChange: "clip-path" }}
-      >
-        {/* Фон — статичная картинка, весь экран */}
-        <div
-          className="absolute inset-0 hidden md:block"
-          style={{
-            backgroundImage: `url(${desktopImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
-        <div
-          className="absolute inset-0 md:hidden"
-          style={{
-            backgroundImage: `url(${mobileImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
-
-        {/* Виньетка снизу для читаемости кнопки */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-        {/* Кнопка — внизу слева, появляется когда фото раскрылось */}
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-black">
         <motion.div
-          className="absolute bottom-10 left-6 md:left-10 z-20"
-          style={{ opacity: btnOpacity, y: btnY }}
+          className="absolute overflow-hidden"
+          style={{
+            top: margin,
+            left: margin,
+            right: margin,
+            bottom: margin,
+            borderRadius,
+          }}
         >
-          <LiquidButton
-            size="xxl"
-            className="font-bold text-xl tracking-wide"
-            onClick={onCtaClick}
+          {/* Desktop */}
+          <div
+            className="absolute inset-0 hidden md:block"
+            style={{
+              backgroundImage: `url(${desktopImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          {/* Mobile */}
+          <div
+            className="absolute inset-0 md:hidden"
+            style={{
+              backgroundImage: `url(${mobileImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+
+          {/* Виньетка снизу */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+
+          {/* Кнопка внизу слева */}
+          <motion.div
+            className="absolute bottom-10 left-6 md:left-10 z-20"
+            style={{ opacity: btnOpacity, y: btnY }}
           >
-            ОСТАВИТЬ ЗАЯВКУ
-          </LiquidButton>
+            <LiquidButton
+              size="xxl"
+              className="font-bold text-xl tracking-wide"
+              onClick={onCtaClick}
+            >
+              ОСТАВИТЬ ЗАЯВКУ
+            </LiquidButton>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   )
 }
