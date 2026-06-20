@@ -7,7 +7,7 @@ interface HeroSectionProps {
   onCtaClick?: () => void
 }
 
-const HERO_IMAGE = "https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781966170/videoframe_6402_ji6mwt.png"
+const HERO_IMAGE = "https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781967158/d461aab7-b492-480e-ad82-8cd1f24ec896_xssu7z.png"
 
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -41,7 +41,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         src={HERO_IMAGE}
         alt="LUMIÈRE Estates"
         className="absolute inset-0 w-full h-full"
-        style={{ objectFit: "contain", objectPosition: "center" }}
+        style={{ objectFit: "cover", objectPosition: "center" }}
         initial={{ opacity: 0, scale: 1.06 }}
         animate={{
           opacity: 1,
