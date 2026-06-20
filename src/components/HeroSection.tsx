@@ -8,25 +8,25 @@ export default function HeroSection() {
 
   const slides = [
     {
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-j46TPXDHzpn3M65wMva3qHPNhwokYn.png",
-      alt: "Группа бегунов в движении",
+      image: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/5acffee2-9c46-4015-9b16-dc7233659dde.jpg",
+      alt: "Современная вилла с панорамным остеклением",
     },
     {
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-oH2K0gw1HEqvYhhbwJrYbmkBrbksyk.png",
-      alt: "Бегунья с эффектом размытия",
+      image: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/6fb67afd-4898-4da2-a88c-df8522a2a140.jpg",
+      alt: "Премиум-пентхаус с видом на город",
     },
     {
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-DQ2brNc5Vszxllx17YNA6JqGqiHaRm.png",
-      alt: "Бегун во главе группы",
+      image: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/19cef11a-be15-4790-865f-204ca7c298c9.jpg",
+      alt: "Элитный особняк в сумерках",
     },
   ]
 
   const navItems = [
     { name: "Главная", href: "#hero" },
-    { name: "Миссия", href: "#mission" },
-    { name: "Сообщество", href: "#community" },
+    { name: "Философия", href: "#mission" },
+    { name: "Объекты", href: "#community" },
     { name: "Отзывы", href: "#testimonials" },
-    { name: "Вступить", href: "#join" },
+    { name: "Контакты", href: "#join" },
   ]
 
   // Navigation handlers
@@ -57,7 +57,7 @@ export default function HeroSection() {
       {/* Navigation */}
       <nav className="relative z-20 flex items-center justify-between p-6 md:p-8">
         {/* Logo/Brand */}
-        <div className="text-white font-bold text-xl tracking-wider">STRIDE</div>
+        <div className="text-white font-bold text-xl tracking-wider">LUMIÈRE</div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
@@ -105,13 +105,13 @@ export default function HeroSection() {
         <div className="text-center text-white max-w-4xl">
           {/* Main Title */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-wider mb-4 leading-none">
-            STRIDE
+            LUMIÈRE
             <br />
-            COLLECTIVE
+            ESTATES
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl font-light tracking-wide mb-8 text-gray-200">Беговое сообщество</p>
+          <p className="text-xl md:text-2xl font-light tracking-wide mb-8 text-gray-200">Недвижимость, которой восхищаются</p>
 
           {/* CTA Button - Now using LiquidButton */}
           <LiquidButton
@@ -119,7 +119,7 @@ export default function HeroSection() {
             className="font-semibold text-lg tracking-wide"
             onClick={() => scrollToSection("#join")}
           >
-            Присоединиться
+            Смотреть объекты
           </LiquidButton>
         </div>
       </div>
