@@ -7,7 +7,7 @@ interface HeroSectionProps {
   onCtaClick?: () => void
 }
 
-const VIDEO_SRC = "https://res.cloudinary.com/dm2xsvsg7/video/upload/v1781895735/hailuo-2_3_sculptural_clay_art_A_breathtaking_cinematic_timelapse_of_a_modern_luxury_villa.-0_obh4ro.mp4"
+const HERO_IMAGE = "https://res.cloudinary.com/dm2xsvsg7/image/upload/v1781966170/videoframe_6402_ji6mwt.png"
 
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -36,24 +36,31 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   return (
     <div id="hero" className="relative h-screen w-full overflow-hidden bg-black">
 
-      {/* ── Видео: timelapse виллы, зацикленное ── */}
-      <motion.video
-        key="hero-video"
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/82cb225b-001b-468f-8c64-c6c5e712751d.jpg"
-        className="absolute inset-0 w-full h-full object-cover"
-        initial={{ opacity: 0, scale: 1.06 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <source src={VIDEO_SRC} type="video/mp4" />
-      </motion.video>
+      {/* ── Фон: Ken Burns — медленный zoom + slow pan ── */}
+      <motion.div
+        className="absolute inset-[-6%]"
+        style={{
+          backgroundImage: `url('${HERO_IMAGE}')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        initial={{ opacity: 0, scale: 1.12 }}
+        animate={{
+          opacity: 1,
+          scale: [1.12, 1.06, 1.1, 1.05, 1.12],
+          x: ["0%", "-1.5%", "1%", "-0.5%", "0%"],
+          y: ["0%", "1%", "-0.8%", "0.5%", "0%"],
+        }}
+        transition={{
+          opacity: { duration: 1.8, ease: "easeOut" },
+          scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
+          x: { duration: 28, repeat: Infinity, ease: "easeInOut" },
+          y: { duration: 28, repeat: Infinity, ease: "easeInOut" },
+        }}
+      />
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/65" />
+      {/* Gradient overlay — виньетка + тёмный низ */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/60" />
 
       {/* Light sweep */}
       <div className="absolute inset-0 light-sweep overflow-hidden pointer-events-none" />
