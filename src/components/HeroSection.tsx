@@ -197,7 +197,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
               className="font-semibold text-lg tracking-wide"
               onClick={onCtaClick}
             >
-              Смотреть объекты
+              ОСТАВИТЬ ЗАЯВКУ
             </LiquidButton>
           </motion.div>
         </div>
