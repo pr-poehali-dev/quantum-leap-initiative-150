@@ -1,33 +1,17 @@
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
 import { Menu, X } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 interface HeroSectionProps {
   onCtaClick?: () => void
 }
 
-// Три кадра: закат → сумерки → ночь
-const SLIDES = [
-  {
-    src: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/82cb225b-001b-468f-8c64-c6c5e712751d.jpg",
-    duration: 5000,
-  },
-  {
-    src: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/561f1bd3-c595-4b6b-a11f-032241244427.jpg",
-    duration: 4000,
-  },
-  {
-    src: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/1f8bbf65-68d9-4a22-8f5e-9133b3158c9b.jpg",
-    duration: 6000,
-  },
-]
+const VIDEO_SRC = "https://res.cloudinary.com/dm2xsvsg7/video/upload/v1781895735/hailuo-2_3_sculptural_clay_art_A_breathtaking_cinematic_timelapse_of_a_modern_luxury_villa.-0_obh4ro.mp4"
 
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Sticky nav — стекло при скроле
   useEffect(() => {
@@ -35,14 +19,6 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
-
-  // Автопереход закат → сумерки → ночь (с возвратом к закату)
-  useEffect(() => {
-    timerRef.current = setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % SLIDES.length)
-    }, SLIDES[currentSlide].duration)
-    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
-  }, [currentSlide])
 
   const navItems = [
     { name: "Главная", href: "#hero" },
@@ -60,18 +36,21 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   return (
     <div id="hero" className="relative h-screen w-full overflow-hidden bg-black">
 
-      {/* ── Crossfade слайды: закат → сумерки → ночь ── */}
-      <AnimatePresence>
-        <motion.div
-          key={currentSlide}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${SLIDES[currentSlide].src}')` }}
-          initial={{ opacity: 0, scale: 1.06 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-        />
-      </AnimatePresence>
+      {/* ── Видео: timelapse виллы, зацикленное ── */}
+      <motion.video
+        key="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/82cb225b-001b-468f-8c64-c6c5e712751d.jpg"
+        className="absolute inset-0 w-full h-full object-cover"
+        initial={{ opacity: 0, scale: 1.06 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <source src={VIDEO_SRC} type="video/mp4" />
+      </motion.video>
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/65" />
@@ -219,24 +198,13 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Day/night progress dots */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3"
       >
-        <div className="flex gap-2.5 mb-2">
-          {SLIDES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentSlide(i)}
-              className={`h-px transition-all duration-500 ${
-                i === currentSlide ? "w-8 bg-white" : "w-3 bg-white/35 hover:bg-white/60"
-              }`}
-            />
-          ))}
-        </div>
         <span className="text-white/35 text-[10px] tracking-widest uppercase">Scroll</span>
         <motion.div
           animate={{ scaleY: [1, 0.3, 1] }}
