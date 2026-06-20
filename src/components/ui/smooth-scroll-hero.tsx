@@ -27,12 +27,14 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
     offset: ["start start", "end start"],
   })
 
+  // Картинка раскрывается от центра до полного экрана
   const clipStart = useTransform(scrollYProgress, [0, 0.7], [initialClipPercentage, 0])
   const clipEnd = useTransform(scrollYProgress, [0, 0.7], [finalClipPercentage, 100])
   const clipPath = useMotionTemplate`polygon(${clipStart}% ${clipStart}%, ${clipEnd}% ${clipStart}%, ${clipEnd}% ${clipEnd}%, ${clipStart}% ${clipEnd}%)`
 
-  const ctaOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1])
-  const ctaY = useTransform(scrollYProgress, [0.3, 0.5], [40, 0])
+  // Контент появляется когда картинка почти раскрылась
+  const ctaOpacity = useTransform(scrollYProgress, [0.4, 0.65], [0, 1])
+  const ctaY = useTransform(scrollYProgress, [0.4, 0.65], [30, 0])
 
   return (
     <div ref={containerRef} style={{ height: `${scrollHeight}px` }} className="relative w-full">
@@ -40,7 +42,7 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
         className="sticky top-0 h-screen w-full bg-black overflow-hidden"
         style={{ clipPath, willChange: "clip-path" }}
       >
-        {/* Desktop background — статичная картинка */}
+        {/* Фон — статичная картинка, растянута на весь экран */}
         <div
           className="absolute inset-0 hidden md:block"
           style={{
@@ -50,7 +52,6 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
             backgroundRepeat: "no-repeat",
           }}
         />
-        {/* Mobile background */}
         <div
           className="absolute inset-0 md:hidden"
           style={{
@@ -61,18 +62,18 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
           }}
         />
 
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40" />
+        {/* Overlay — виньетка снизу и сверху */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/65" />
 
-        {/* Content */}
+        {/* Контент поверх картинки */}
         <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-center z-20"
+          className="absolute inset-0 z-20 flex flex-col justify-between px-6 md:px-10 py-7 md:py-9"
           style={{ opacity: ctaOpacity, y: ctaY }}
         >
-          {/* Logo — точная копия из HeroSection */}
-          <div className="flex items-center gap-2.5 mb-10">
+          {/* Лого — вверху слева, как в Hero */}
+          <div className="flex items-center gap-2.5">
             <svg
-              width="36" height="36" viewBox="0 0 28 28" fill="none"
+              width="28" height="28" viewBox="0 0 28 28" fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" fill="none"/>
@@ -85,17 +86,19 @@ const SmoothScrollHero: React.FC<SmoothScrollHeroProps> = ({
               <line x1="22" y1="10" x2="16.5" y2="13" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
               <line x1="11.5" y1="15" x2="6" y2="18" stroke="rgba(255,255,255,0.6)" strokeWidth="0.8"/>
             </svg>
-            <span className="text-white font-bold text-xl tracking-[0.2em]">LUMIÈRE</span>
+            <span className="text-white font-bold text-lg tracking-[0.2em]">LUMIÈRE</span>
           </div>
 
-          {/* CTA Button */}
-          <LiquidButton
-            size="xxl"
-            className="font-bold text-xl tracking-wide"
-            onClick={onCtaClick}
-          >
-            ОСТАВИТЬ ЗАЯВКУ
-          </LiquidButton>
+          {/* Кнопка — внизу слева */}
+          <div className="flex items-end justify-start pb-2">
+            <LiquidButton
+              size="xxl"
+              className="font-bold text-xl tracking-wide"
+              onClick={onCtaClick}
+            >
+              ОСТАВИТЬ ЗАЯВКУ
+            </LiquidButton>
+          </div>
         </motion.div>
       </motion.div>
     </div>
