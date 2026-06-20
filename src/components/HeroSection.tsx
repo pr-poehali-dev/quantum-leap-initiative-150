@@ -1,5 +1,5 @@
 import { LiquidButton } from "@/components/ui/liquid-glass-button"
-import { Menu, ChevronLeft, ChevronRight, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { useState } from "react"
 
 interface HeroSectionProps {
@@ -7,35 +7,15 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ onCtaClick }: HeroSectionProps) {
-  const [currentSlide, setCurrentSlide] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  const slides = [
-    {
-      image: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/5acffee2-9c46-4015-9b16-dc7233659dde.jpg",
-      alt: "Современная вилла с панорамным остеклением",
-    },
-    {
-      image: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/6fb67afd-4898-4da2-a88c-df8522a2a140.jpg",
-      alt: "Премиум-пентхаус с видом на город",
-    },
-    {
-      image: "https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/19cef11a-be15-4790-865f-204ca7c298c9.jpg",
-      alt: "Элитный особняк в сумерках",
-    },
-  ]
 
   const navItems = [
     { name: "Главная", href: "#hero" },
     { name: "Философия", href: "#mission" },
     { name: "Объекты", href: "#community" },
     { name: "Отзывы", href: "#testimonials" },
-    { name: "Контакты", href: "#join" },
+    { name: "Контакты", href: "#contacts" },
   ]
-
-  // Navigation handlers
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length)
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
@@ -47,20 +27,24 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
 
   return (
     <div id="hero" className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
-        style={{
-          backgroundImage: `url('${slides[currentSlide].image}')`,
-        }}
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="https://cdn.poehali.dev/projects/90021b2f-cfcd-4983-91d1-868b6823b8bb/files/5acffee2-9c46-4015-9b16-dc7233659dde.jpg"
+        className="absolute inset-0 w-full h-full object-cover"
       >
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40" />
-      </div>
+        <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-a-luxury-estate-4047/1080p.mp4" type="video/mp4" />
+        <source src="https://cdn.coverr.co/videos/coverr-luxury-mansion-with-pool-8540/1080p.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
 
       {/* Navigation */}
       <nav className="relative z-20 flex items-center justify-between p-6 md:p-8">
-        {/* Logo/Brand */}
         <div className="text-white font-bold text-xl tracking-wider">LUMIÈRE</div>
 
         {/* Desktop Navigation */}
@@ -72,7 +56,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
               className="relative text-white hover:text-gray-300 transition-colors duration-300 font-medium tracking-wide pb-1 group"
             >
               {item.name}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-out group-hover:w-full" />
             </button>
           ))}
         </div>
@@ -83,7 +67,6 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          <span className="sr-only">Меню</span>
         </button>
       </nav>
 
@@ -107,17 +90,17 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
       {/* Hero Content */}
       <div className="relative z-10 flex h-full items-center justify-center px-6">
         <div className="text-center text-white max-w-4xl">
-          {/* Main Title */}
+          <p className="text-xs md:text-sm font-medium tracking-[0.4em] uppercase text-gray-300 mb-6">
+            Преміум нерухомість · Київ
+          </p>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-wider mb-4 leading-none">
             LUMIÈRE
             <br />
             ESTATES
           </h1>
-
-          {/* Subtitle */}
-          <p className="text-xl md:text-2xl font-light tracking-wide mb-8 text-gray-200">Недвижимость, которой восхищаются</p>
-
-          {/* CTA Button - Now using LiquidButton */}
+          <p className="text-xl md:text-2xl font-light tracking-wide mb-10 text-gray-200">
+            Недвижимость, которой восхищаются
+          </p>
           <LiquidButton
             size="xxl"
             className="font-semibold text-lg tracking-wide"
@@ -128,57 +111,10 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Slider Navigation */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="flex items-center space-x-4">
-          {/* Previous Arrow */}
-          <button
-            onClick={prevSlide}
-            className="text-white hover:text-gray-300 transition-colors p-2"
-            aria-label="Предыдущий слайд"
-          >
-            <ChevronLeft size={24} />
-          </button>
-
-          {/* Slide Indicators */}
-          <div className="flex space-x-2">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? "bg-white" : "bg-white/40 hover:bg-white/60"
-                }`}
-                aria-label={`Перейти к слайду ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Next Arrow */}
-          <button
-            onClick={nextSlide}
-            className="text-white hover:text-gray-300 transition-colors p-2"
-            aria-label="Следующий слайд"
-          >
-            <ChevronRight size={24} />
-          </button>
-        </div>
-      </div>
-
-      {/* Side Navigation Indicators */}
-      <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 hidden md:block">
-        <div className="flex flex-col space-y-3">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-1 h-8 transition-all duration-300 ${
-                currentSlide === index ? "bg-white" : "bg-white/40 hover:bg-white/60"
-              }`}
-              aria-label={`Слайд ${index + 1}`}
-            />
-          ))}
-        </div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2">
+        <span className="text-white/40 text-xs tracking-widest uppercase">Scroll</span>
+        <div className="w-px h-10 bg-gradient-to-b from-white/40 to-transparent" />
       </div>
     </div>
   )

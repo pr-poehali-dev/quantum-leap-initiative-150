@@ -122,6 +122,81 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Contacts Section */}
+      <section id="contacts" className="relative py-24 bg-gray-950">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-6xl font-black tracking-wider text-white mb-4">КОНТАКТЫ</h2>
+            <p className="text-gray-400 text-lg tracking-wide">Мы всегда на связи</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
+            {[
+              {
+                icon: "Phone",
+                label: "Телефон",
+                value: "+380 44 200 11 88",
+                href: "tel:+380442001188",
+              },
+              {
+                icon: "Send",
+                label: "Telegram",
+                value: "@lumiere_estates",
+                href: "https://t.me/lumiere_estates",
+              },
+              {
+                icon: "Instagram",
+                label: "Instagram",
+                value: "@lumiere.estates.kyiv",
+                href: "https://instagram.com/lumiere.estates.kyiv",
+              },
+              {
+                icon: "MapPin",
+                label: "Адрес офиса",
+                value: "вул. Хрещатик, 15, оф. 8, Київ",
+                href: "https://maps.google.com/?q=Khreshchatyk+15+Kyiv",
+              },
+            ].map((item, i) => (
+              <motion.a
+                key={i}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+                className="group flex flex-col items-center text-center p-8 border border-gray-800 hover:border-gray-600 transition-all duration-300 bg-gray-900/50 hover:bg-gray-900"
+                style={{ clipPath: "polygon(16px 0%, calc(100% - 16px) 0%, 100% 16px, 100% 100%, calc(100% - 16px) 100%, 16px 100%, 0 100%, 0 0)" }}
+              >
+                <div className="w-12 h-12 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors mb-5">
+                  <Icon name={item.icon} size={20} className="text-gray-400 group-hover:text-white transition-colors" />
+                </div>
+                <p className="text-xs tracking-widest uppercase text-gray-600 mb-2">{item.label}</p>
+                <p className="text-white text-sm font-medium leading-relaxed">{item.value}</p>
+              </motion.a>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <p className="text-gray-600 text-xs tracking-widest uppercase mb-6">Пн – Сб · 9:00 – 20:00</p>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-3 bg-white text-gray-900 font-bold tracking-widest text-sm uppercase px-10 py-4 hover:bg-gray-100 transition-colors duration-300"
+            >
+              <Icon name="CalendarCheck" size={16} />
+              Записаться на просмотр
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Modal Form */}
       <AnimatePresence>
         {isModalOpen && (
